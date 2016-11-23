@@ -46,10 +46,19 @@ git fetch 只是更新了本地库关联的远程库的最新版本指向，本�
 *   git fetch remote_repo remote_branch_name：这将这将更新名称为remote_repo 的远程repo上的分支： remote_branch_name
 *   git fetch remote_repo remote_branch_name:local_branch_name：这将这将更新名称为remote_repo 的远程repo上的分支： remote_branch_name ，并在本地创建local_branch_name 本地分支保存远端分支的所有数据。
 
-4. B库执行 git commit 观察最新版本变化
+4. B库执行 git commit 观察最新版本变化并git fetch
 
 ```
+$ cat refs/heads/master
+3b565936eb8f41ceca5991e9c096a403fbdad0a8
 
+$ cat refs/remotes/origin/master
+db39bda75ddb5e8c8b594e4a170167d95d6d3e41
+
+$ cat FETCH_HEAD
+db39bda75ddb5e8c8b594e4a170167d95d6d3e41                branch 'master' of github.com:HelloDBA/gitlab
 
 ```
+这时我们对B库进行git push的话肯定会失败，因为和远端库存在冲突，冲突的原因是两个本地库进行了不同的向前版本推进，并且其中一个库已经push到远程，而另外一个库在对分支操作前没有进行从远程获新数据（这也不可避免，毕竟要多人协作）
 
+5. 
