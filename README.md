@@ -4,7 +4,7 @@
 
 git clone 一个新项目（里面只有一个readme.md，建立项目时自动增加）观察本地 .git/refs/heads/master与 .git\refs\remotes\origin\master 最新版本号变化
 
-1. git clone 不做任何操作（为了测试，clone了两个本地库A\B）
+## git clone 不做任何操作（为了测试，clone了两个本地库A\B）
 
 ```
 $ cat refs/heads/master
@@ -15,7 +15,7 @@ cat: refs/remotes/origin/master: No such file or directory
 
 ```
 
-2. A库进行一次git commit 并 push 到远程库
+## A库进行一次git commit 并 push 到远程库
 
 ```
 $ cat refs/heads/master
@@ -26,7 +26,7 @@ db39bda75ddb5e8c8b594e4a170167d95d6d3e41
 
 ```
 
-3. B库执行 git fetch 观察库最新版本变化
+## B库执行 git fetch 观察库最新版本变化
 
 ```
 $ cat refs/heads/master
@@ -46,7 +46,7 @@ git fetch 只是更新了本地库关联的远程库的最新版本指向，本�
 *   git fetch remote_repo remote_branch_name：这将这将更新名称为remote_repo 的远程repo上的分支： remote_branch_name
 *   git fetch remote_repo remote_branch_name:local_branch_name：这将这将更新名称为remote_repo 的远程repo上的分支： remote_branch_name ，并在本地创建local_branch_name 本地分支保存远端分支的所有数据。
 
-4. B库执行 git commit 观察最新版本变化并git fetch
+## B库执行 git commit 观察最新版本变化并git fetch
 
 ```
 $ cat refs/heads/master
@@ -61,4 +61,18 @@ db39bda75ddb5e8c8b594e4a170167d95d6d3e41                branch 'master' of githu
 ```
 这时我们对B库进行git push的话肯定会失败，因为和远端库存在冲突，冲突的原因是两个本地库进行了不同的向前版本推进，并且其中一个库已经push到远程，而另外一个库在对分支操作前没有进行从远程获新数据（这也不可避免，毕竟要多人协作）
 
-5. 
+## B库执行 git pull 合并冲突并git commit，在A库执行git pull 观察最新版本变化
+
+```
+$ cat refs/heads/master
+2e1005440605f4189fc6be947b71349b6edec713
+
+$ cat refs/remotes/origin/master
+2e1005440605f4189fc6be947b71349b6edec713
+
+$ cat FETCH_HEAD
+2e1005440605f4189fc6be947b71349b6edec713                branch 'master' of github.com:HelloDBA/gitlab
+
+```
+执行git pull 后本地库从远程获新了全部数据，包括版本和文件数据。
+
